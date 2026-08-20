@@ -8,9 +8,20 @@
   const { site, navigation, services, solutions, caseStudies, articles, process, outcomes, engagementModels, values, homeFaqs } = data;
 
   const byId = (id) => document.getElementById(id);
-  const slugFromPath = () =>
-    window.location.pathname.replace(/\/$/, "").split("/").filter(Boolean).pop() || "";
-  const currentPath = () => window.location.pathname.replace(/index\.html$/, "");
+  const basePath = window.__RUDREXA_BASE__ ? window.__RUDREXA_BASE__.replace(/\/$/, "") : "";
+  const withBase = (path) => `${basePath}${path}`;
+  const normalizePath = (path) => {
+    let value = path.replace(/index\.html$/, "");
+
+    if (basePath && value.startsWith(basePath)) {
+      value = value.slice(basePath.length) || "/";
+    }
+
+    value = value.replace(/\/$/, "");
+    return value || "/";
+  };
+  const slugFromPath = () => normalizePath(window.location.pathname).split("/").filter(Boolean).pop() || "";
+  const currentPath = () => normalizePath(window.location.pathname);
   const siteUrl = (path) => `${site.baseUrl}${path}`;
   const year = new Date().getFullYear();
 
@@ -35,21 +46,21 @@
     const serviceLinks = navigation.services
       .map(
         (item) =>
-          `<a href="/services/${item.slug}/">${item.label}</a>`,
+          `<a href="${withBase(`/services/${item.slug}/`)}">${item.label}</a>`,
       )
       .join("");
 
     const solutionLinks = navigation.solutions
       .map(
         (item) =>
-          `<a href="/solutions/${item.slug}/">${item.label}</a>`,
+          `<a href="${withBase(`/solutions/${item.slug}/`)}">${item.label}</a>`,
       )
       .join("");
 
     mount.innerHTML = `
       <div class="site-header">
         <div class="container nav-shell">
-          <a href="/" class="wordmark" aria-label="Rudrexa home">RUDRE<span>X</span>A</a>
+          <a href="${withBase(`/`)}" class="wordmark" aria-label="Rudrexa home">RUDRE<span>X</span>A</a>
           <nav class="desktop-nav" aria-label="Main navigation">
             <div class="dropdown">
               <button class="dropdown-toggle" type="button" aria-expanded="false" aria-haspopup="true">Services</button>
@@ -59,13 +70,13 @@
               <button class="dropdown-toggle" type="button" aria-expanded="false" aria-haspopup="true">Solutions</button>
               <div class="dropdown-menu" role="menu">${solutionLinks}</div>
             </div>
-            <a class="nav-link ${isActive("/work") ? "active" : ""}" href="/work/">Work</a>
-            <a class="nav-link ${isActive("/products") ? "active" : ""}" href="/products/">Products</a>
-            <a class="nav-link ${isActive("/about") ? "active" : ""}" href="/about/">About</a>
-            <a class="nav-link ${isActive("/insights") ? "active" : ""}" href="/insights/">Insights</a>
+            <a class="nav-link ${isActive("/work") ? "active" : ""}" href="${withBase(`/work/`)}">Work</a>
+            <a class="nav-link ${isActive("/products") ? "active" : ""}" href="${withBase(`/products/`)}">Products</a>
+            <a class="nav-link ${isActive("/about") ? "active" : ""}" href="${withBase(`/about/`)}">About</a>
+            <a class="nav-link ${isActive("/insights") ? "active" : ""}" href="${withBase(`/insights/`)}">Insights</a>
           </nav>
           <div class="header-cta">
-            <a class="cta-button cta-button--accent" href="/start-project/">Start a Project</a>
+            <a class="cta-button cta-button--accent" href="${withBase(`/start-project/`)}">Start a Project</a>
           </div>
           <button class="mobile-toggle" type="button" aria-expanded="false" aria-controls="mobile-panel-sheet" aria-label="Open navigation">
             <span></span>
@@ -77,7 +88,7 @@
     mobileMount.innerHTML = `
       <div class="mobile-panel__inner" id="mobile-panel-sheet">
         <div class="stack-row" style="justify-content: space-between; align-items: center;">
-          <a href="/" class="wordmark">RUDRE<span>X</span>A</a>
+          <a href="${withBase(`/`)}" class="wordmark">RUDRE<span>X</span>A</a>
           <button class="mobile-toggle" type="button" data-close-menu aria-label="Close navigation">
             <span></span>
           </button>
@@ -93,11 +104,11 @@
           </details>
         </div>
         <nav aria-label="Mobile navigation">
-          <a class="nav-link" href="/work/">Work</a>
-          <a class="nav-link" href="/products/">Products</a>
-          <a class="nav-link" href="/about/">About</a>
-          <a class="nav-link" href="/insights/">Insights</a>
-          <a class="cta-button cta-button--accent" href="/start-project/">Start a Project</a>
+          <a class="nav-link" href="${withBase(`/work/`)}">Work</a>
+          <a class="nav-link" href="${withBase(`/products/`)}">Products</a>
+          <a class="nav-link" href="${withBase(`/about/`)}">About</a>
+          <a class="nav-link" href="${withBase(`/insights/`)}">Insights</a>
+          <a class="cta-button cta-button--accent" href="${withBase(`/start-project/`)}">Start a Project</a>
         </nav>
       </div>
     `;
@@ -167,16 +178,16 @@
 
     const servicesList = services
       .slice(0, 4)
-      .map((item) => `<li><a href="/services/${item.slug}/">${item.menu}</a></li>`)
+      .map((item) => `<li><a href="${withBase(`/services/${item.slug}/`)}">${item.menu}</a></li>`)
       .join("");
     const companyList = `
-      <li><a href="/about/">About</a></li>
-      <li><a href="/process/">Process</a></li>
-      <li><a href="/products/">Products</a></li>
-      <li><a href="/contact/">Contact</a></li>
+      <li><a href="${withBase(`/about/`)}">About</a></li>
+      <li><a href="${withBase(`/process/`)}">Process</a></li>
+      <li><a href="${withBase(`/products/`)}">Products</a></li>
+      <li><a href="${withBase(`/contact/`)}">Contact</a></li>
     `;
     const insightsList = articles
-      .map((item) => `<li><a href="/insights/${item.slug}/">${item.title}</a></li>`)
+      .map((item) => `<li><a href="${withBase(`/insights/${item.slug}/`)}">${item.title}</a></li>`)
       .join("");
 
     mount.innerHTML = `
@@ -184,7 +195,7 @@
         <div class="container">
           <div class="footer-shell">
             <div>
-              <a href="/" class="wordmark">RUDRE<span>X</span>A</a>
+              <a href="${withBase(`/`)}" class="wordmark">RUDRE<span>X</span>A</a>
               <p>Rudrexa Technologies brings strategy, design, technology, growth and security together under one partnership.</p>
               <p class="muted">Everything Digital. One Partner.</p>
             </div>
@@ -207,8 +218,8 @@
                 <li>${site.contact.phone}</li>
                 <li>${site.contact.email}</li>
                 <li>${site.contact.social}</li>
-                <li><a href="/privacy-policy/">Privacy Policy</a></li>
-                <li><a href="/terms/">Terms</a></li>
+                <li><a href="${withBase(`/privacy-policy/`)}">Privacy Policy</a></li>
+                <li><a href="${withBase(`/terms/`)}">Terms</a></li>
               </ul>
             </div>
           </div>
@@ -238,7 +249,7 @@
         <span class="micro-label">0${index + 1}</span>
         <h3>${item.title}</h3>
         <p>${item.summary}</p>
-        <a class="ghost-button" href="/services/${item.slug}/">Explore service</a>
+        <a class="ghost-button" href="${withBase(`/services/${item.slug}/`)}">Explore service</a>
       </article>
     `);
   }
@@ -252,7 +263,7 @@
         <p><strong>Challenge:</strong> ${item.challenge}</p>
         <p><strong>Services:</strong> ${item.services.join(", ")}</p>
         <p>${item.result}</p>
-        <a class="ghost-button" href="/work/${item.slug}/">Read case study</a>
+        <a class="ghost-button" href="${withBase(`/work/${item.slug}/`)}">Read case study</a>
       </article>
     `);
   }
@@ -264,7 +275,7 @@
         <h3>${item.title}</h3>
         <p>${item.description}</p>
         <p class="muted">${item.author} · ${item.readingTime}</p>
-        <a class="ghost-button" href="/insights/${item.slug}/">Read article</a>
+        <a class="ghost-button" href="${withBase(`/insights/${item.slug}/`)}">Read article</a>
       </article>
     `);
   }
@@ -348,7 +359,9 @@
 
     mount.innerHTML = items
       .map((item) =>
-        item.href ? `<span><a href="${item.href}">${item.label}</a></span>` : `<span>${item.label}</span>`,
+        item.href
+          ? `<span><a href="${item.href.startsWith("/") ? withBase(item.href) : item.href}">${item.label}</a></span>`
+          : `<span>${item.label}</span>`,
       )
       .join("");
   }
@@ -436,8 +449,8 @@
             <h1>${service.title}</h1>
             <p class="lede">${service.hero}</p>
             <div class="stack-row">
-              <a class="cta-button cta-button--accent" href="/start-project/">Start a Project</a>
-              <a class="ghost-button" href="/contact/">Talk to Rudrexa</a>
+              <a class="cta-button cta-button--accent" href="${withBase(`/start-project/`)}">Start a Project</a>
+              <a class="ghost-button" href="${withBase(`/contact/`)}">Talk to Rudrexa</a>
             </div>
           </div>
           <aside class="detail-box">
@@ -498,7 +511,7 @@
               <h2>Ready to plan this service around your business?</h2>
               <p>Share your scope, timeline and priorities with Rudrexa.</p>
             </div>
-            <a class="cta-button cta-button--accent" href="/start-project/">Start Your Project</a>
+            <a class="cta-button cta-button--accent" href="${withBase(`/start-project/`)}">Start Your Project</a>
           </div>
         </div>
       </section>
@@ -550,7 +563,7 @@
           <aside class="detail-box">
             <span class="tag">Who this is for</span>
             <p>${solution.summary}</p>
-            <a class="cta-button cta-button--accent" href="/start-project/">Start a Project</a>
+            <a class="cta-button cta-button--accent" href="${withBase(`/start-project/`)}">Start a Project</a>
           </aside>
         </div>
       </section>
@@ -580,7 +593,7 @@
               <h2>Need a delivery model that matches your stage?</h2>
               <p>Tell Rudrexa where the business is now and what should happen next.</p>
             </div>
-            <a class="cta-button cta-button--accent" href="/start-project/">Request a tailored proposal</a>
+            <a class="cta-button cta-button--accent" href="${withBase(`/start-project/`)}">Request a tailored proposal</a>
           </div>
         </div>
       </section>
@@ -651,7 +664,7 @@
               <h2>Need something similar for your business?</h2>
               <p>Use this concept project as a starting point and shape it around your real requirements.</p>
             </div>
-            <a class="cta-button cta-button--accent" href="/start-project/">Discuss your project</a>
+            <a class="cta-button cta-button--accent" href="${withBase(`/start-project/`)}">Discuss your project</a>
           </div>
         </div>
       </section>
@@ -734,11 +747,11 @@
           <aside class="detail-box">
             <h3>Related services</h3>
             <ul>
-              <li><a href="/services/web-development/">Web Development</a></li>
-              <li><a href="/services/software-saas/">Software & SaaS</a></li>
-              <li><a href="/services/ai-automation/">AI & Automation</a></li>
+              <li><a href="${withBase(`/services/web-development/`)}">Web Development</a></li>
+              <li><a href="${withBase(`/services/software-saas/`)}">Software & SaaS</a></li>
+              <li><a href="${withBase(`/services/ai-automation/`)}">AI & Automation</a></li>
             </ul>
-            <a class="cta-button cta-button--accent" href="/start-project/">Start a Project</a>
+            <a class="cta-button cta-button--accent" href="${withBase(`/start-project/`)}">Start a Project</a>
           </aside>
         </div>
       </section>

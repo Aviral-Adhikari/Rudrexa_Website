@@ -131,7 +131,7 @@
     const payload = Object.fromEntries(new FormData(form).entries());
 
     try {
-      const response = await fetch("/api/start-project", {
+      const response = await fetch("api/start-project", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

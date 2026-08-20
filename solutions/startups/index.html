@@ -1,7 +1,25 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <script>
+      (function () {
+        var path = window.location.pathname;
+        var isGithubPages = /\.github\.io$/i.test(window.location.hostname);
+        var base = "/";
+        if (isGithubPages) {
+          var parts = path.split("/").filter(Boolean);
+          if (parts.length > 0) {
+            base = "/" + parts[0] + "/";
+          }
+        }
+        window.__RUDREXA_BASE__ = base;
+        var baseTag = document.createElement("base");
+        baseTag.href = base;
+        document.head.appendChild(baseTag);
+      })();
+    </script>
     <title>Solutions for Startups | Rudrexa</title>
     <meta name="description" content="Rudrexa supports startups with MVP planning, product design, custom software and launch-ready digital foundations." />
     <link rel="canonical" href="https://www.rudrexa.com/solutions/startups/" />
@@ -10,8 +28,8 @@
     <meta property="og:url" content="https://www.rudrexa.com/solutions/startups/" />
     <meta property="og:image" content="https://www.rudrexa.com/assets/img/og-rudrexa.svg" />
     <meta name="twitter:card" content="summary_large_image" />
-    <link rel="icon" href="/favicon.svg" type="image/svg+xml" /><link rel="stylesheet" href="/assets/css/styles.css" />
-    <script defer src="/assets/js/content.js"></script><script defer src="/assets/js/site.js"></script>
+    <link rel="icon" href="favicon.svg" type="image/svg+xml" /><link rel="stylesheet" href="assets/css/styles.css" />
+    <script defer src="assets/js/content.js"></script><script defer src="assets/js/site.js"></script>
   </head>
   <body data-page="solution-detail" data-solution="startups">
     <a class="skip-link" href="#main-content">Skip to content</a><div id="site-header"></div><div class="mobile-panel" id="mobile-panel"></div>
