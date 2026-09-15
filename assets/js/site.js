@@ -30,6 +30,198 @@
   const caseStudyBySlug = Object.fromEntries(caseStudies.map((item) => [item.slug, item]));
   const articleBySlug = Object.fromEntries(articles.map((item) => [item.slug, item]));
 
+  function iconShell(inner, viewBox = "0 0 24 24") {
+    return `
+      <svg viewBox="${viewBox}" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+        ${inner}
+      </svg>
+    `;
+  }
+
+  function getServiceIcon(slug) {
+    const icons = {
+      "branding-ui-ux": iconShell(`
+        <path d="M4 20h16" />
+        <path d="M7 16l8-8 3 3-8 8H7z" />
+        <path d="M14 7l3 3" />
+      `),
+      "web-development": iconShell(`
+        <rect x="3" y="4" width="18" height="14" rx="2" />
+        <path d="M3 8h18" />
+        <path d="M9 13l-2 2 2 2" />
+        <path d="M15 13l2 2-2 2" />
+      `),
+      "software-saas": iconShell(`
+        <rect x="4" y="5" width="16" height="5" rx="1.5" />
+        <rect x="4" y="14" width="16" height="5" rx="1.5" />
+        <path d="M8 10v4" />
+        <path d="M16 10v4" />
+      `),
+      "mobile-app-development": iconShell(`
+        <rect x="7" y="3" width="10" height="18" rx="2.2" />
+        <path d="M11 6h2" />
+        <circle cx="12" cy="17.5" r="0.8" fill="currentColor" stroke="none" />
+      `),
+      "ai-automation": iconShell(`
+        <rect x="7" y="7" width="10" height="10" rx="2" />
+        <path d="M12 3v4" />
+        <path d="M12 17v4" />
+        <path d="M3 12h4" />
+        <path d="M17 12h4" />
+        <path d="M6 6l2.5 2.5" />
+        <path d="M15.5 15.5L18 18" />
+      `),
+      "seo-digital-growth": iconShell(`
+        <path d="M4 19h16" />
+        <path d="M7 15l3-3 3 2 4-5" />
+        <path d="M16 9h3v3" />
+      `),
+      "cloud-cybersecurity": iconShell(`
+        <path d="M8 18h8a4 4 0 0 0 .7-7.94A5 5 0 0 0 7.3 8 3.5 3.5 0 0 0 8 18Z" />
+        <path d="M12 11l3 1.4v2.7c0 2-1.3 3.8-3 4.5-1.7-.7-3-2.5-3-4.5v-2.7L12 11Z" />
+      `),
+    };
+
+    return icons[slug] || iconShell(`<circle cx="12" cy="12" r="7" /><path d="M12 8v4l2 2" />`);
+  }
+
+  function getIndustryIcon(industry) {
+    const key = industry.toLowerCase();
+
+    if (key.includes("mental")) {
+      return iconShell(`
+        <path d="M12 20s-6-3.8-8-8.6C2.8 7.5 5 5 7.7 5c1.6 0 3.2.8 4.3 2.3C13 5.8 14.7 5 16.3 5 19 5 21.2 7.5 20 11.4 18 16.2 12 20 12 20Z" />
+      `);
+    }
+
+    if (key.includes("education")) {
+      return iconShell(`
+        <path d="M3 8l9-4 9 4-9 4-9-4Z" />
+        <path d="M7 10v4c0 1.8 2.2 3 5 3s5-1.2 5-3v-4" />
+      `);
+    }
+
+    if (key.includes("tourism")) {
+      return iconShell(`
+        <path d="M4 18h16" />
+        <path d="M7 18l5-11 5 11" />
+        <path d="M10 12h4" />
+      `);
+    }
+
+    return iconShell(`<rect x="4" y="4" width="16" height="16" rx="3" /><path d="M8 12h8" /><path d="M8 16h5" />`);
+  }
+
+  function getArticleIcon() {
+    return iconShell(`
+      <path d="M7 4h8l4 4v12H7z" />
+      <path d="M15 4v4h4" />
+      <path d="M10 12h6" />
+      <path d="M10 16h6" />
+    `);
+  }
+
+  function getModelIcon(title) {
+    const map = {
+      Launch: iconShell(`<path d="M6 18c2-5 5-8 10-10 1.5 4.5-1.5 9-6 10l-2 2v-4Z" /><path d="M13 9l2 2" />`),
+      Build: iconShell(`<rect x="4" y="4" width="7" height="7" rx="1.5" /><rect x="13" y="4" width="7" height="7" rx="1.5" /><rect x="4" y="13" width="7" height="7" rx="1.5" /><rect x="13" y="13" width="7" height="7" rx="1.5" />`),
+      Partner: iconShell(`<path d="M8 12l3 3 5-5" /><path d="M4 7h5l2 2 2-2h7" /><path d="M4 17h16" />`),
+    };
+
+    return map[title] || iconShell(`<circle cx="12" cy="12" r="8" />`);
+  }
+
+  function getModelDetails(title) {
+    const details = {
+      Launch: ["Best for early launches", "Typical duration: 2 to 4 weeks", "Clear scope and rapid delivery plan"],
+      Build: ["Best for deeper product work", "Typical duration: 6 to 12+ weeks", "Dedicated design and engineering flow"],
+      Partner: ["Best for long-term support", "Monthly ongoing collaboration", "Roadmap, optimization and operational continuity"],
+    };
+
+    return details[title] || [];
+  }
+
+  function getModelLabel(title) {
+    const labels = {
+      Launch: "Launch Sprint",
+      Build: "Dedicated Build",
+      Partner: "Ongoing Partnership",
+    };
+
+    return labels[title] || title;
+  }
+
+  function getCaseStudyImage(slug) {
+    const positions = {
+      "himalaya-counselling-collective": "72% center",
+      "mero-school-hub": "48% center",
+      "sajilo-yatra": "88% center",
+    };
+
+    return {
+      src: withBase("/assets/img/heroimage.png"),
+      position: positions[slug] || "center center",
+    };
+  }
+
+  function getProcessMeta(index) {
+    const items = [
+      { deliverable: "Business goals, pain points and opportunity map", timeframe: "1 to 2 weeks" },
+      { deliverable: "Scope, architecture and practical roadmap", timeframe: "1 week" },
+      { deliverable: "Flows, interface direction and decision-ready prototypes", timeframe: "1 to 3 weeks" },
+      { deliverable: "Production build, QA and launch preparation", timeframe: "2 to 8+ weeks" },
+      { deliverable: "Iteration roadmap, reporting and operational support", timeframe: "Ongoing" },
+    ];
+
+    return items[index] || { deliverable: "Tailored deliverables based on scope", timeframe: "Defined during scoping" };
+  }
+
+  function initLoader() {
+    if (!document.body || document.querySelector(".site-loader")) {
+      return;
+    }
+
+    const overlay = document.createElement("div");
+    overlay.className = "site-loader";
+    overlay.setAttribute("aria-hidden", "true");
+    overlay.innerHTML = `
+      <div class="site-loader__mark">
+        <img src="${withBase(`/assets/img/rudrexa_logo_icon.png`)}" alt="" width="2000" height="2000" />
+      </div>
+    `;
+
+    document.body.appendChild(overlay);
+
+    const hideLoader = () => {
+      window.setTimeout(() => {
+        overlay.classList.add("site-loader--hidden");
+        window.setTimeout(() => overlay.remove(), 420);
+      }, 1000);
+    };
+
+    if (document.readyState === "complete") {
+      hideLoader();
+      return;
+    }
+
+    window.addEventListener("load", hideLoader, { once: true });
+  }
+
+  function summarize(text, maxLength) {
+    if (!text || text.length <= maxLength) {
+      return text;
+    }
+
+    return `${text.slice(0, maxLength).trimEnd().replace(/[.,;:!?-]+$/, "")}...`;
+  }
+
+  function renderBadges(items, className = "service-badge", maxItems = items.length) {
+    return items
+      .slice(0, maxItems)
+      .map((item) => `<span class="${className}">${item}</span>`)
+      .join("");
+  }
+
   function isActive(prefix) {
     const path = currentPath();
     return path === prefix || path.startsWith(`${prefix}/`);
@@ -43,37 +235,19 @@
       return;
     }
 
-    const serviceLinks = navigation.services
-      .map(
-        (item) =>
-          `<a href="${withBase(`/services/${item.slug}/`)}">${item.label}</a>`,
-      )
-      .join("");
-
-    const solutionLinks = navigation.solutions
-      .map(
-        (item) =>
-          `<a href="${withBase(`/solutions/${item.slug}/`)}">${item.label}</a>`,
-      )
-      .join("");
-
     mount.innerHTML = `
       <div class="site-header">
         <div class="container nav-shell">
-          <a href="${withBase(`/`)}" class="wordmark" aria-label="Rudrexa home">RUDRE<span>X</span>A</a>
+          <a href="${withBase(`/`)}" class="brand-lockup" aria-label="Rudrexa home">
+            <img src="${withBase(`/assets/img/rudrexa_logo_icon.png`)}" alt="" width="2000" height="2000" />
+            <span class="wordmark">RUDRE<span>X</span>A</span>
+          </a>
           <nav class="desktop-nav" aria-label="Main navigation">
-            <div class="dropdown">
-              <button class="dropdown-toggle" type="button" aria-expanded="false" aria-haspopup="true">Services</button>
-              <div class="dropdown-menu" role="menu">${serviceLinks}</div>
-            </div>
-            <div class="dropdown">
-              <button class="dropdown-toggle" type="button" aria-expanded="false" aria-haspopup="true">Solutions</button>
-              <div class="dropdown-menu" role="menu">${solutionLinks}</div>
-            </div>
+            <a class="nav-link ${isActive("/services") ? "active" : ""}" href="${withBase(`/services/`)}">Services</a>
             <a class="nav-link ${isActive("/work") ? "active" : ""}" href="${withBase(`/work/`)}">Work</a>
-            <a class="nav-link ${isActive("/products") ? "active" : ""}" href="${withBase(`/products/`)}">Products</a>
-            <a class="nav-link ${isActive("/about") ? "active" : ""}" href="${withBase(`/about/`)}">About</a>
+            <a class="nav-link ${isActive("/process") ? "active" : ""}" href="${withBase(`/process/`)}">Approach</a>
             <a class="nav-link ${isActive("/insights") ? "active" : ""}" href="${withBase(`/insights/`)}">Insights</a>
+            <a class="nav-link ${isActive("/about") ? "active" : ""}" href="${withBase(`/about/`)}">About</a>
           </nav>
           <div class="header-cta">
             <a class="cta-button cta-button--accent" href="${withBase(`/start-project/`)}">Start a Project</a>
@@ -88,26 +262,20 @@
     mobileMount.innerHTML = `
       <div class="mobile-panel__inner" id="mobile-panel-sheet">
         <div class="stack-row" style="justify-content: space-between; align-items: center;">
-          <a href="${withBase(`/`)}" class="wordmark">RUDRE<span>X</span>A</a>
+          <a href="${withBase(`/`)}" class="brand-lockup">
+            <img src="${withBase(`/assets/img/rudrexa_logo_icon.png`)}" alt="" width="2000" height="2000" />
+            <span class="wordmark">RUDRE<span>X</span>A</span>
+          </a>
           <button class="mobile-toggle" type="button" data-close-menu aria-label="Close navigation">
             <span></span>
           </button>
         </div>
-        <div class="mobile-panel__groups">
-          <details class="mobile-group">
-            <summary>Services</summary>
-            ${serviceLinks}
-          </details>
-          <details class="mobile-group">
-            <summary>Solutions</summary>
-            ${solutionLinks}
-          </details>
-        </div>
         <nav aria-label="Mobile navigation">
+          <a class="nav-link" href="${withBase(`/services/`)}">Services</a>
           <a class="nav-link" href="${withBase(`/work/`)}">Work</a>
-          <a class="nav-link" href="${withBase(`/products/`)}">Products</a>
-          <a class="nav-link" href="${withBase(`/about/`)}">About</a>
+          <a class="nav-link" href="${withBase(`/process/`)}">Approach</a>
           <a class="nav-link" href="${withBase(`/insights/`)}">Insights</a>
+          <a class="nav-link" href="${withBase(`/about/`)}">About</a>
           <a class="cta-button cta-button--accent" href="${withBase(`/start-project/`)}">Start a Project</a>
         </nav>
       </div>
@@ -116,24 +284,6 @@
     const mobilePanel = mobileMount;
     const openButton = mount.querySelector(".mobile-toggle");
     const closeButton = mobileMount.querySelector("[data-close-menu]");
-    const dropdownButtons = mount.querySelectorAll(".dropdown-toggle");
-
-    dropdownButtons.forEach((button) => {
-      button.addEventListener("click", () => {
-        const parent = button.closest(".dropdown");
-        const expanded = parent.classList.toggle("open");
-        button.setAttribute("aria-expanded", expanded ? "true" : "false");
-      });
-    });
-
-    document.addEventListener("click", (event) => {
-      if (!event.target.closest(".dropdown")) {
-        mount.querySelectorAll(".dropdown").forEach((item) => item.classList.remove("open"));
-        mount
-          .querySelectorAll(".dropdown-toggle")
-          .forEach((button) => button.setAttribute("aria-expanded", "false"));
-      }
-    });
 
     const closeMenu = () => {
       mobilePanel.classList.remove("open");
@@ -183,21 +333,21 @@
     const companyList = `
       <li><a href="${withBase(`/about/`)}">About</a></li>
       <li><a href="${withBase(`/process/`)}">Process</a></li>
-      <li><a href="${withBase(`/products/`)}">Products</a></li>
+      <li><a href="${withBase(`/work/`)}">Work</a></li>
       <li><a href="${withBase(`/contact/`)}">Contact</a></li>
     `;
-    const insightsList = articles
-      .map((item) => `<li><a href="${withBase(`/insights/${item.slug}/`)}">${item.title}</a></li>`)
-      .join("");
 
     mount.innerHTML = `
       <div class="site-footer">
         <div class="container">
           <div class="footer-shell">
             <div>
-              <a href="${withBase(`/`)}" class="wordmark">RUDRE<span>X</span>A</a>
-              <p>Rudrexa Technologies brings strategy, design, technology, growth and security together under one partnership.</p>
-              <p class="muted">Everything Digital. One Partner.</p>
+              <a href="${withBase(`/`)}" class="brand-lockup">
+                <img src="${withBase(`/assets/img/rudrexa_logo_icon.png`)}" alt="" width="2000" height="2000" />
+                <span class="wordmark">RUDRE<span>X</span>A</span>
+              </a>
+              <p>Rudrexa brings branding, software, growth and infrastructure together through one connected digital partnership.</p>
+              <p class="muted">${site.contact.locationLine}</p>
             </div>
             <div>
               <h3>Services</h3>
@@ -208,16 +358,10 @@
               <ul>${companyList}</ul>
             </div>
             <div>
-              <h3>Insights</h3>
-              <ul>${insightsList}</ul>
-            </div>
-            <div>
               <h3>Contact</h3>
               <ul>
                 <li>${site.contact.address}</li>
-                <li>${site.contact.phone}</li>
-                <li>${site.contact.email}</li>
-                <li>${site.contact.social}</li>
+                <li><a href="mailto:${site.contact.email}">${site.contact.email}</a></li>
                 <li><a href="${withBase(`/privacy-policy/`)}">Privacy Policy</a></li>
                 <li><a href="${withBase(`/terms/`)}">Terms</a></li>
               </ul>
@@ -244,38 +388,77 @@
 
   function renderServiceCards(targetId, list) {
     renderCards(targetId, list, (item, index) => `
-      <article class="card">
-        <div class="card-icon" aria-hidden="true"></div>
-        <span class="micro-label">0${index + 1}</span>
-        <h3>${item.title}</h3>
-        <p>${item.summary}</p>
-        <a class="ghost-button" href="${withBase(`/services/${item.slug}/`)}">Explore service</a>
+      <article class="card service-card service-card--${item.slug}">
+        <div class="card-top">
+          <div class="card-icon" aria-hidden="true">${getServiceIcon(item.slug)}</div>
+          <span class="micro-label">0${index + 1}</span>
+        </div>
+        <div class="card-copy">
+          <h3>${item.title}</h3>
+          <p>${item.summary}</p>
+          <p class="service-card__detail">${item.capabilities[0]}</p>
+        </div>
+        <div class="card-footer">
+          <a class="ghost-button" href="${withBase(`/services/${item.slug}/`)}">Explore service</a>
+        </div>
       </article>
     `);
   }
 
   function renderCaseStudyCards(targetId, list) {
     renderCards(targetId, list, (item) => `
-      <article class="card">
-        <span class="tag">${item.label}</span>
-        <h3>${item.name}</h3>
-        <p><strong>Industry:</strong> ${item.industry}</p>
-        <p><strong>Challenge:</strong> ${item.challenge}</p>
-        <p><strong>Services:</strong> ${item.services.join(", ")}</p>
-        <p>${item.result}</p>
-        <a class="ghost-button" href="${withBase(`/work/${item.slug}/`)}">Read case study</a>
+      <article class="card case-study-card">
+        <div class="case-study-visual">
+          <img
+            src="${getCaseStudyImage(item.slug).src}"
+            alt="${item.name} concept project visual"
+            width="2049"
+            height="1152"
+            style="object-position: ${getCaseStudyImage(item.slug).position};"
+          />
+          <div class="case-study-visual__overlay">
+            <div class="case-study-visual__bar"><span></span><span></span><span></span></div>
+            <div class="case-study-visual__rail">
+              <span>${item.industry}</span>
+              <span>${item.services[0]}</span>
+              <span>${item.services[1] || item.services[0]}</span>
+            </div>
+          </div>
+        </div>
+        <div class="card-copy">
+          <span class="tag">${item.label}</span>
+          <h3>${item.name}</h3>
+          <p class="card-lead"><strong>Problem</strong> ${summarize(item.challenge, 110)}</p>
+          <div class="service-badges">${renderBadges(item.services, "service-badge", 3)}</div>
+          <p><strong>Delivered</strong> Brand structure, interface direction and digital delivery planning for a more coherent product experience.</p>
+          <p><strong>Status</strong> ${summarize(item.result, 108)}</p>
+        </div>
+        <div class="card-footer">
+          <a class="ghost-button" href="${withBase(`/work/${item.slug}/`)}">Read case study</a>
+        </div>
       </article>
     `);
   }
 
   function renderArticleCards(targetId, list) {
-    renderCards(targetId, list, (item) => `
-      <article class="card">
-        <span class="tag">Insight</span>
-        <h3>${item.title}</h3>
-        <p>${item.description}</p>
-        <p class="muted">${item.author} · ${item.readingTime}</p>
-        <a class="ghost-button" href="${withBase(`/insights/${item.slug}/`)}">Read article</a>
+    renderCards(targetId, list, (item, index) => `
+      <article class="card article-card ${index === 0 ? "article-card--featured" : ""}">
+        <div class="article-card__cover" aria-hidden="true">
+          <img src="${withBase(`/assets/img/rudrexa_logo_icon.png`)}" alt="" width="2000" height="2000" />
+          <span>${item.readingTime}</span>
+        </div>
+        <div class="card-top">
+          <div class="card-icon" aria-hidden="true">${getArticleIcon()}</div>
+          <span class="tag">Insight</span>
+        </div>
+        <div class="card-copy">
+          <h3>${item.title}</h3>
+          <p>${item.description}</p>
+          <p class="muted">${item.author} · ${item.readingTime}</p>
+        </div>
+        <div class="card-footer">
+          <a class="ghost-button" href="${withBase(`/insights/${item.slug}/`)}">Read article</a>
+        </div>
       </article>
     `);
   }
@@ -315,6 +498,12 @@
               <h3>${item.name}</h3>
               <p>${item.text}</p>
             </div>
+            <div class="process-meta">
+              <strong>Client receives</strong>
+              <span>${getProcessMeta(index).deliverable}</span>
+              <strong>Typical timeframe</strong>
+              <span>${getProcessMeta(index).timeframe}</span>
+            </div>
           </article>
         `,
       )
@@ -331,12 +520,21 @@
   }
 
   function renderModels(targetId) {
-    renderCards(targetId, engagementModels, (item) => `
-      <article class="card">
-        <span class="tag">${item.title}</span>
-        <h3>${item.title}</h3>
-        <p>${item.text}</p>
-        <p class="muted">Request a tailored proposal.</p>
+    renderCards(targetId, engagementModels, (item, index) => `
+      <article class="card model-card ${index === 1 ? "model-card--featured" : ""}">
+        <div class="card-top">
+          <div class="card-icon" aria-hidden="true">${getModelIcon(item.title)}</div>
+          <span class="tag">${index === 1 ? "Recommended" : item.title}</span>
+        </div>
+        <div class="card-copy">
+          <h3>${getModelLabel(item.title)}</h3>
+          <p>${item.text}</p>
+          <ul class="stack-list model-points">${getModelDetails(item.title).map((point) => `<li>${point}</li>`).join("")}</ul>
+          <p class="muted">Request a tailored proposal.</p>
+        </div>
+        <div class="card-footer">
+          <a class="ghost-button" href="${withBase(`/start-project/`)}">Start a conversation</a>
+        </div>
       </article>
     `);
   }
@@ -376,8 +574,49 @@
     mount.textContent = JSON.stringify(schema).replace(/</g, "\\u003c");
   }
 
+  function initMotion() {
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      return;
+    }
+
+    const revealTargets = document.querySelectorAll(
+      "section, .card, .detail-box, .compare-card, .process-card, .contact-card, .faq-item, .cta-strip",
+    );
+
+    revealTargets.forEach((item, index) => {
+      item.classList.add("reveal");
+      item.style.setProperty("--reveal-delay", `${Math.min(index * 22, 220)}ms`);
+    });
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("reveal-visible");
+            observer.unobserve(entry.target);
+          }
+        });
+      },
+      {
+        threshold: 0.14,
+        rootMargin: "0px 0px -8% 0px",
+      },
+    );
+
+    revealTargets.forEach((item) => observer.observe(item));
+  }
+
+  function initScrollState() {
+    const sync = () => {
+      document.body.classList.toggle("scrolled", window.scrollY > 8);
+    };
+
+    sync();
+    window.addEventListener("scroll", sync, { passive: true });
+  }
+
   function organizationSchema() {
-    return {
+    const schema = {
       "@context": "https://schema.org",
       "@type": "Organization",
       name: "Rudrexa Technologies",
@@ -386,17 +625,17 @@
       description: site.description,
       address: site.contact.address,
       email: site.contact.email,
-      telephone: site.contact.phone,
     };
+
+    return schema;
   }
 
   function renderHome() {
     renderServiceCards("home-services", services);
-    renderOutcomes("home-outcomes");
     renderProcess("home-process");
-    renderCaseStudyCards("home-work", caseStudies);
+    renderCaseStudyCards("home-work", caseStudies.slice(0, 2));
     renderModels("home-models");
-    renderArticleCards("home-insights", articles);
+    renderArticleCards("home-insights", articles.slice(0, 3));
     renderFaqs("home-faqs", homeFaqs);
     injectJsonLd([
       organizationSchema(),
@@ -918,9 +1157,12 @@
   }
 
   document.addEventListener("DOMContentLoaded", () => {
+    initLoader();
     renderHeader();
     renderFooter();
     initByPage();
+    initScrollState();
+    initMotion();
     const yearMount = document.querySelector("[data-year]");
 
     if (yearMount) {

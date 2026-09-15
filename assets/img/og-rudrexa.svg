@@ -1,11 +1,13 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630">
-  <rect width="1200" height="630" fill="#F5F3EE"/>
-  <circle cx="1010" cy="130" r="120" fill="rgba(239,62,47,0.12)"/>
-  <circle cx="180" cy="520" r="150" fill="rgba(11,11,12,0.05)"/>
-  <rect x="90" y="90" width="1020" height="450" rx="36" fill="#FFFFFF" stroke="#D8D6D0"/>
-  <text x="140" y="220" font-family="Arial, sans-serif" font-size="34" letter-spacing="6" fill="#55565A">RUDREXA TECHNOLOGIES</text>
-  <text x="140" y="330" font-family="Arial, sans-serif" font-size="88" font-weight="700" fill="#0B0B0C">Everything Digital.</text>
-  <text x="140" y="430" font-family="Arial, sans-serif" font-size="88" font-weight="700" fill="#0B0B0C">One Partner.</text>
-  <text x="140" y="505" font-family="Arial, sans-serif" font-size="30" fill="#55565A">Based in Nepal. Building for businesses everywhere.</text>
-  <path d="M910 225h72l46 67 45-67h72l-102 124 101 106h-72l-45-56-46 56h-72l101-106-100-124Z" fill="#EF3E2F"/>
+  <rect width="1200" height="630" fill="#080808"/>
+  <rect x="64" y="64" width="1072" height="502" rx="34" fill="none" stroke="rgba(174,180,188,0.24)"/>
+  <path d="M64 172H1136" stroke="rgba(174,180,188,0.12)"/>
+  <path d="M64 452H1136" stroke="rgba(174,180,188,0.12)"/>
+  <circle cx="108" cy="118" r="8" fill="#FF2B2B"/>
+  <circle cx="1092" cy="510" r="8" fill="#FF2B2B"/>
+  <text x="110" y="134" font-family="Arial, sans-serif" font-size="28" font-weight="700" letter-spacing="8" fill="#AEB4BC">RUDREXA TECHNOLOGIES</text>
+  <text x="110" y="276" font-family="Arial, sans-serif" font-size="92" font-weight="700" fill="#F5F5F5">Everything digital.</text>
+  <text x="110" y="372" font-family="Arial, sans-serif" font-size="92" font-weight="700" fill="#F5F5F5">One partner.</text>
+  <text x="110" y="468" font-family="Arial, sans-serif" font-size="29" fill="#AEB4BC">Based in Nepal. Building for businesses everywhere.</text>
+  <path d="M940 208h58l38 58 38-58h58l-88 110 87 104h-58l-37-46-38 46h-58l87-104-87-110Z" fill="#FF2B2B"/>
 </svg>

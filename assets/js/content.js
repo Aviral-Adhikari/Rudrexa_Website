@@ -5,18 +5,16 @@ window.RudrexaContent = {
     tagline: "Everything Digital. One Partner.",
     description:
       "Rudrexa helps businesses build, grow, automate and secure their digital operations through one coordinated technology partnership.",
-    heroEyebrow: "Technology partner for modern businesses",
-    heroTitle: "Everything digital. One partner.",
+    heroEyebrow: "RUDREXA - ONE DIGITAL PARTNER",
+    heroTitle: "Your digital business, built as one connected system.",
     heroText:
-      "Rudrexa brings strategy, design, software, AI, growth and security together so businesses can move forward without managing multiple vendors.",
+      "Rudrexa brings branding, web development, software, mobile apps, AI, digital growth, cloud and security into one accountable team - from first idea to continuous improvement.",
     basePath: "",
     baseUrl: "https://www.rudrexa.com",
     contact: {
-      address: "[Verified business address], Nepal",
-      phone: "[Verified Nepal phone number]",
-      email: "[Verified email address]",
-      social: "[Verified social profiles]",
-      locationLine: "Based in Nepal. Building for businesses everywhere.",
+      address: "Rudrexa, Lokanthali, Bhaktapur",
+      email: "contact@rudrexa.com",
+      locationLine: "Based in Kathmandu Valley, Nepal. Working with ambitious teams everywhere.",
     },
   },
   navigation: {
