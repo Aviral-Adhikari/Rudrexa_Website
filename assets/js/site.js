@@ -238,16 +238,16 @@
     mount.innerHTML = `
       <div class="site-header">
         <div class="container nav-shell">
-          <a href="${withBase(`/`)}" class="brand-lockup" aria-label="Rudrexa home">
-            <img src="${withBase(`/assets/img/rudrexa_logo_icon.png`)}" alt="" width="2000" height="2000" />
+          <a href="${withBase(`/`)}" class="brand-lockup brand-lockup--header" aria-label="Rudrexa Technologies home">
             <span class="wordmark">RUDRE<span>X</span>A</span>
+            <span class="brand-descriptor">DIGITAL SYSTEMS / NEPAL</span>
           </a>
           <nav class="desktop-nav" aria-label="Main navigation">
-            <a class="nav-link ${isActive("/services") ? "active" : ""}" href="${withBase(`/services/`)}">Services</a>
-            <a class="nav-link ${isActive("/work") ? "active" : ""}" href="${withBase(`/work/`)}">Work</a>
-            <a class="nav-link ${isActive("/process") ? "active" : ""}" href="${withBase(`/process/`)}">Approach</a>
-            <a class="nav-link ${isActive("/insights") ? "active" : ""}" href="${withBase(`/insights/`)}">Insights</a>
-            <a class="nav-link ${isActive("/about") ? "active" : ""}" href="${withBase(`/about/`)}">About</a>
+            <a class="nav-link ${isActive("/services") ? "active" : ""}" ${isActive("/services") ? 'aria-current="page"' : ""} href="${withBase(`/services/`)}"><span class="nav-index" aria-hidden="true">01</span><span>Services</span></a>
+            <a class="nav-link ${isActive("/work") ? "active" : ""}" ${isActive("/work") ? 'aria-current="page"' : ""} href="${withBase(`/work/`)}"><span class="nav-index" aria-hidden="true">02</span><span>Work</span></a>
+            <a class="nav-link ${isActive("/process") ? "active" : ""}" ${isActive("/process") ? 'aria-current="page"' : ""} href="${withBase(`/process/`)}"><span class="nav-index" aria-hidden="true">03</span><span>Approach</span></a>
+            <a class="nav-link ${isActive("/insights") ? "active" : ""}" ${isActive("/insights") ? 'aria-current="page"' : ""} href="${withBase(`/insights/`)}"><span class="nav-index" aria-hidden="true">04</span><span>Insights</span></a>
+            <a class="nav-link ${isActive("/about") ? "active" : ""}" ${isActive("/about") ? 'aria-current="page"' : ""} href="${withBase(`/about/`)}"><span class="nav-index" aria-hidden="true">05</span><span>About</span></a>
           </nav>
           <div class="header-cta">
             <a class="cta-button cta-button--accent" href="${withBase(`/start-project/`)}">Start a Project</a>
@@ -262,8 +262,7 @@
     mobileMount.innerHTML = `
       <div class="mobile-panel__inner" id="mobile-panel-sheet">
         <div class="stack-row" style="justify-content: space-between; align-items: center;">
-          <a href="${withBase(`/`)}" class="brand-lockup">
-            <img src="${withBase(`/assets/img/rudrexa_logo_icon.png`)}" alt="" width="2000" height="2000" />
+          <a href="${withBase(`/`)}" class="brand-lockup brand-lockup--header" aria-label="Rudrexa Technologies home">
             <span class="wordmark">RUDRE<span>X</span>A</span>
           </a>
           <button class="mobile-toggle" type="button" data-close-menu aria-label="Close navigation">
@@ -271,11 +270,11 @@
           </button>
         </div>
         <nav aria-label="Mobile navigation">
-          <a class="nav-link" href="${withBase(`/services/`)}">Services</a>
-          <a class="nav-link" href="${withBase(`/work/`)}">Work</a>
-          <a class="nav-link" href="${withBase(`/process/`)}">Approach</a>
-          <a class="nav-link" href="${withBase(`/insights/`)}">Insights</a>
-          <a class="nav-link" href="${withBase(`/about/`)}">About</a>
+          <a class="nav-link ${isActive("/services") ? "active" : ""}" ${isActive("/services") ? 'aria-current="page"' : ""} href="${withBase(`/services/`)}"><span class="nav-index" aria-hidden="true">01</span><span>Services</span></a>
+          <a class="nav-link ${isActive("/work") ? "active" : ""}" ${isActive("/work") ? 'aria-current="page"' : ""} href="${withBase(`/work/`)}"><span class="nav-index" aria-hidden="true">02</span><span>Work</span></a>
+          <a class="nav-link ${isActive("/process") ? "active" : ""}" ${isActive("/process") ? 'aria-current="page"' : ""} href="${withBase(`/process/`)}"><span class="nav-index" aria-hidden="true">03</span><span>Approach</span></a>
+          <a class="nav-link ${isActive("/insights") ? "active" : ""}" ${isActive("/insights") ? 'aria-current="page"' : ""} href="${withBase(`/insights/`)}"><span class="nav-index" aria-hidden="true">04</span><span>Insights</span></a>
+          <a class="nav-link ${isActive("/about") ? "active" : ""}" ${isActive("/about") ? 'aria-current="page"' : ""} href="${withBase(`/about/`)}"><span class="nav-index" aria-hidden="true">05</span><span>About</span></a>
           <a class="cta-button cta-button--accent" href="${withBase(`/start-project/`)}">Start a Project</a>
         </nav>
       </div>
@@ -285,11 +284,14 @@
     const openButton = mount.querySelector(".mobile-toggle");
     const closeButton = mobileMount.querySelector("[data-close-menu]");
 
-    const closeMenu = () => {
+    const closeMenu = (restoreFocus = true) => {
       mobilePanel.classList.remove("open");
       document.body.classList.remove("menu-open");
       if (openButton) {
         openButton.setAttribute("aria-expanded", "false");
+        if (restoreFocus) {
+          openButton.focus();
+        }
       }
     };
 
@@ -299,12 +301,19 @@
         mobilePanel.classList.toggle("open", nextState);
         document.body.classList.toggle("menu-open", nextState);
         openButton.setAttribute("aria-expanded", nextState ? "true" : "false");
+        if (nextState && closeButton) {
+          window.setTimeout(() => closeButton.focus(), 80);
+        }
       });
     }
 
     if (closeButton) {
       closeButton.addEventListener("click", closeMenu);
     }
+
+    mobileMount.querySelectorAll("a").forEach((link) => {
+      link.addEventListener("click", () => closeMenu(false));
+    });
 
     mobilePanel.addEventListener("click", (event) => {
       if (event.target === mobilePanel) {
@@ -580,7 +589,7 @@
     }
 
     const revealTargets = document.querySelectorAll(
-      "section, .card, .detail-box, .compare-card, .process-card, .contact-card, .faq-item, .cta-strip",
+      ".card, .detail-box, .compare-card, .process-card, .contact-card, .faq-item, .cta-strip",
     );
 
     revealTargets.forEach((item, index) => {

@@ -1,0 +1,252 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#f5f7fa" />
+    <meta name="robots" content="noindex, nofollow" />
+    <meta
+      name="description"
+      content="Persona is an interactive visual personality-predictor demo with 13 quick questions."
+    />
+    <title>Persona | Personality Predictor</title>
+    <link rel="stylesheet" href="quiz.css" />
+    <script defer src="quiz.js"></script>
+  </head>
+  <body class="sq-page">
+    <main class="sq-app" id="sq-app">
+      <div class="sq-shell">
+        <header class="sq-brand" aria-label="Persona personality predictor">
+          <div class="sq-brand__identity">
+            <span class="sq-brand__mark" aria-hidden="true">
+              <svg viewBox="0 0 28 28" focusable="false">
+                <path d="M14 3 24 9v10l-10 6L4 19V9l10-6Z" />
+                <path d="m4 9 10 6 10-6M14 15v10" />
+              </svg>
+            </span>
+            <span class="sq-brand__name">Persona</span>
+          </div>
+          <div class="sq-brand__labels">
+            <span class="sq-badge sq-badge--accent">Interactive demo</span>
+            <span class="sq-badge">Just for fun</span>
+          </div>
+        </header>
+
+        <section class="sq-screen sq-welcome" id="sq-welcome" aria-labelledby="sq-welcome-title">
+          <div class="sq-welcome__copy">
+            <p class="sq-kicker">Personality predictor</p>
+            <h1 id="sq-welcome-title">What do your choices say about you?</h1>
+            <p class="sq-welcome__intro">
+              Pick your favourites from 13 pictures and explore your predicted personality. Does it
+              sound like you? You be the judge.
+            </p>
+            <p class="sq-welcome__meta">
+              <span>13 visual questions</span>
+              <span aria-hidden="true">·</span>
+              <span>About 2 minutes</span>
+            </p>
+            <button class="sq-button sq-button--primary sq-button--start" id="sq-start" type="button">
+              <span>Start prediction</span>
+              <svg viewBox="0 0 20 20" aria-hidden="true" focusable="false">
+                <path d="m7 4 6 6-6 6" />
+              </svg>
+            </button>
+            <p class="sq-privacy-note">No sign-up required. Your answers stay in this tab.</p>
+          </div>
+
+          <aside class="sq-demo-panel" aria-labelledby="sq-demo-title">
+            <div class="sq-demo-panel__header">
+              <div>
+                <p class="sq-demo-panel__eyebrow">System status</p>
+                <h2 id="sq-demo-title">OpenAI API Connection</h2>
+              </div>
+              <span class="sq-connectivity" id="sq-connectivity">Online</span>
+            </div>
+
+            <div class="sq-init-state sq-is-loading" id="sq-init-state">
+              <span class="sq-init-state__icon" aria-hidden="true">
+                <span class="sq-spinner"></span>
+                <svg viewBox="0 0 20 20" focusable="false">
+                  <path d="m5 10 3.2 3.2L15.5 6" />
+                </svg>
+              </span>
+              <div>
+                <p id="sq-init-copy" role="status" aria-live="polite">
+                  Connecting to OpenAI API…
+                </p>
+                <span> API requests are sent and Connected</span>
+              </div>
+            </div>
+
+            <ul class="sq-status-list" aria-label="Quiz status">
+              <li>
+                <span class="sq-status-list__icon" aria-hidden="true"></span>
+                <span>Readiness</span>
+                <strong id="sq-ready-status">Initializing</strong>
+              </li>
+              <li>
+                <span class="sq-status-list__icon" aria-hidden="true"></span>
+                <span>Length</span>
+                <strong>13 questions</strong>
+              </li>
+              <li>
+                <span class="sq-status-list__icon" aria-hidden="true"></span>
+                <span>Privacy</span>
+                <strong>No answers uploaded</strong>
+              </li>
+            </ul>
+          </aside>
+        </section>
+
+        <section class="sq-screen sq-quiz" id="sq-quiz" aria-labelledby="sq-question-title" hidden>
+          <div class="sq-progress-panel" id="sq-question-top">
+            <div class="sq-progress-panel__row">
+              <p class="sq-question-count" id="sq-question-count">Question 1 of 13</p>
+              <p class="sq-completion-copy">
+                <span id="sq-answered-count">0 of 13 answered</span>
+                <strong id="sq-progress-value">0%</strong>
+              </p>
+            </div>
+            <div
+              class="sq-progress"
+              id="sq-progress"
+              role="progressbar"
+              aria-label="Quiz completion"
+              aria-valuemin="0"
+              aria-valuemax="13"
+              aria-valuenow="0"
+            >
+              <span class="sq-progress__fill" id="sq-progress-fill"></span>
+            </div>
+          </div>
+
+          <article class="sq-question-card" id="sq-question-card">
+            <div class="sq-question-heading">
+              <div>
+                <p class="sq-instruction">Choose one visual</p>
+                <h1 class="sq-question-title" id="sq-question-title" tabindex="-1"></h1>
+              </div>
+              <span class="sq-position-key" aria-hidden="true">1 · 2 / 3 · 4</span>
+            </div>
+
+            <p class="sq-viewing-helper">
+              Please answer wisely and honestly for a precise prediction.
+            </p>
+            <p class="sq-viewing-cue" id="sq-viewing-cue">
+              <span class="sq-viewing-cue__count" id="sq-countdown" aria-hidden="true">3</span>
+              <span id="sq-viewing-cue-text">Next unlocks in 3 seconds</span>
+            </p>
+
+            <div class="sq-image-stage" id="sq-image-stage">
+              <div class="sq-image-loading" id="sq-image-loading" aria-hidden="true">
+                <span class="sq-spinner"></span>
+              </div>
+              <img class="sq-collage" id="sq-collage" src="" alt="" />
+              <div class="sq-image-error" id="sq-image-error" role="alert" hidden>
+                <span class="sq-image-error__icon" aria-hidden="true">!</span>
+                <strong>This picture did not load.</strong>
+                <p>Retry the local image to continue this question.</p>
+                <button class="sq-button sq-button--small" id="sq-retry-image" type="button">
+                  Retry picture
+                </button>
+              </div>
+            </div>
+
+            <form id="sq-answer-form">
+              <fieldset class="sq-options" id="sq-options" aria-label="Choose one picture position">
+                <legend class="sq-visually-hidden">Choose one option</legend>
+
+                <label class="sq-option">
+                  <input type="radio" name="sq-answer" value="1" />
+                  <span class="sq-option__number">1</span>
+                  <span class="sq-option__label">Top left</span>
+                  <span class="sq-option__check" aria-hidden="true">✓</span>
+                </label>
+
+                <label class="sq-option">
+                  <input type="radio" name="sq-answer" value="2" />
+                  <span class="sq-option__number">2</span>
+                  <span class="sq-option__label">Top right</span>
+                  <span class="sq-option__check" aria-hidden="true">✓</span>
+                </label>
+
+                <label class="sq-option">
+                  <input type="radio" name="sq-answer" value="3" />
+                  <span class="sq-option__number">3</span>
+                  <span class="sq-option__label">Bottom left</span>
+                  <span class="sq-option__check" aria-hidden="true">✓</span>
+                </label>
+
+                <label class="sq-option">
+                  <input type="radio" name="sq-answer" value="4" />
+                  <span class="sq-option__number">4</span>
+                  <span class="sq-option__label">Bottom right</span>
+                  <span class="sq-option__check" aria-hidden="true">✓</span>
+                </label>
+              </fieldset>
+            </form>
+
+            <p class="sq-status" id="sq-status" role="status" aria-live="polite"></p>
+
+            <nav class="sq-actions" aria-label="Quiz controls">
+              <button class="sq-button sq-button--secondary" id="sq-back" type="button">Back</button>
+              <button class="sq-button sq-button--primary" id="sq-next" type="button" disabled>
+                Next
+              </button>
+            </nav>
+          </article>
+        </section>
+
+        <section
+          class="sq-screen sq-preparing"
+          id="sq-preparing"
+          aria-labelledby="sq-preparing-title"
+          aria-live="polite"
+          hidden
+        >
+          <div class="sq-preparing__indicator" aria-hidden="true">
+            <span class="sq-spinner"></span>
+          </div>
+          <p class="sq-kicker">Prediction complete</p>
+          <h1 id="sq-preparing-title">Preparing your result…</h1>
+          <p>Bringing your final response into view.</p>
+        </section>
+
+        <section class="sq-screen sq-result" id="sq-result" aria-labelledby="sq-result-title" hidden>
+          <div class="sq-result__topline">
+            <span class="sq-badge">Just for fun</span>
+            <span>13 of 13 completed</span>
+          </div>
+          <div
+            class="sq-progress sq-progress--complete"
+            role="progressbar"
+            aria-label="Quiz completed"
+            aria-valuemin="0"
+            aria-valuemax="13"
+            aria-valuenow="13"
+          >
+            <span class="sq-progress__fill"></span>
+          </div>
+          <p class="sq-kicker">Your result</p>
+          <h1 id="sq-result-title" tabindex="-1">Your personality prediction</h1>
+
+          <article class="sq-result-card">
+            <span class="sq-result-card__accent" aria-hidden="true"></span>
+            <p id="sq-result-message"></p>
+          </article>
+
+          <p class="sq-share-note">Does this sound like you? Share a screenshot and let me know.</p>
+          <button class="sq-button sq-button--secondary" id="sq-play-again" type="button">
+            Try again
+          </button>
+        </section>
+
+        <noscript>
+          <div class="sq-noscript">
+            JavaScript is needed to run this quiz. Please enable it and refresh the page.
+          </div>
+        </noscript>
+      </div>
+    </main>
+  </body>
+</html>
